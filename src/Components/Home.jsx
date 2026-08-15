@@ -160,7 +160,10 @@ const Home = () => {
           <div style={styles.footerActions}>
             <button
               style={styles.contactBtn}
-              onClick={() => (window.location.href = 'mailto:hello@ritual365.com')}
+              onClick={() => {
+                // open modal
+                window.dispatchEvent(new Event('openContactModal'))
+              }}
             >
               Contact Us
             </button>
