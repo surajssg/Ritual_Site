@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import ProductList from "./ProductList";
 import Offers from "./Offers";
@@ -13,22 +13,11 @@ const announcementText =
 const Home = () => {
   const logoSrc = "/logo.png";
 
-  const heroImages = [
-    "/ProductList Images/FrozenFoods/Cheese_Ball.jpeg",
-    "/ProductList Images/FrozenFoods/Delicious Frozen Momos.jpg",
-    "/ProductList Images/FrozenFoods/Frozen_Cutlets.jpg",
-    "/ProductList Images/Sweets/Gulab Jamun-1.jpg",
-    "/ProductList Images/Sweets/Kaju Katli-1.jpg",
-    "/ProductList Images/Snacks and Namkeens/PaneerKurkure.jpeg",
-  ];
+  const heroBannerSrc = "/homePage-Image.png";
 
-  const [index, setIndex] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const intervalRef = useRef(null);
-
   const addToCart = (product, change = 1) => {
     setCartItems((items) => {
       const existingItem = items.find((item) => item.id === product.id);
@@ -63,27 +52,6 @@ const Home = () => {
 
   const removeFromCart = (productId) => {
     setCartItems((items) => items.filter((item) => item.id !== productId));
-  };
-
-  useEffect(() => {
-    if (!heroImages.length) return undefined;
-
-    intervalRef.current = setInterval(() => {
-      setIndex((currentIndex) => (currentIndex + 1) % heroImages.length);
-    }, 4000);
-
-    return () => clearInterval(intervalRef.current);
-  }, [heroImages.length]);
-
-  const prev = () => {
-    setIndex(
-      (currentIndex) =>
-        (currentIndex - 1 + heroImages.length) % heroImages.length
-    );
-  };
-
-  const next = () => {
-    setIndex((currentIndex) => (currentIndex + 1) % heroImages.length);
   };
 
   const categoryImages = {
@@ -149,15 +117,17 @@ const Home = () => {
 
       <main style={styles.main} className="home-main">
         <section style={styles.hero} className="home-hero">
+          <img
+            src={heroBannerSrc}
+            alt="Fresh & Delicious, Delivered to Your Door. From traditional snacks to festive sweets, Ritual365 brings you the best — fresh, pure and authentic."
+            style={styles.heroBanner}
+            className="home-hero-banner"
+          />
+
           <div style={styles.heroContent} className="home-hero-content">
-            <h1 style={styles.title} className="home-title">
+            <h1 className="visually-hidden">
               Fresh & Delicious — Delivered To Your Door
             </h1>
-
-            <p style={styles.subtitle} className="home-subtitle">
-              Explore a wide range of Frozen Foods, Sweets, Snacks, Namkeens
-              and more.
-            </p>
 
             <div style={styles.ctaRow} className="home-cta-row">
               <a
@@ -175,62 +145,6 @@ const Home = () => {
               >
                 Today's Offers
               </a>
-            </div>
-          </div>
-
-          <div
-            style={styles.heroGraphic}
-            aria-hidden="true"
-            className="home-hero-graphic"
-          >
-            <div style={styles.carousel} className="home-carousel">
-              {heroImages.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`Ritual365 ${i + 1}`}
-                  loading="lazy"
-                  aria-hidden={i === index ? "false" : "true"}
-                  style={{
-                    ...styles.slideImg,
-                    opacity: i === index ? 1 : 0,
-                  }}
-                />
-              ))}
-
-              <div style={styles.carouselOverlay} />
-
-              <div style={styles.carouselControls}>
-                <button
-                  type="button"
-                  onClick={prev}
-                  style={styles.navBtn}
-                  aria-label="Previous slide"
-                >
-                  ◀
-                </button>
-
-                <button
-                  type="button"
-                  onClick={next}
-                  style={styles.navBtn}
-                  aria-label="Next slide"
-                >
-                  ▶
-                </button>
-              </div>
-
-              <div style={styles.dots}>
-                {heroImages.map((_, i) => (
-                  <button
-                    type="button"
-                    key={i}
-                    onClick={() => setIndex(i)}
-                    style={i === index ? styles.dotActive : styles.dot}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
-              </div>
             </div>
           </div>
         </section>
@@ -376,6 +290,24 @@ const responsiveCss = `
     background: #ffffff;
   }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .home-hero-banner {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .nav-wrap {
     flex: 1;
     min-width: 0;
@@ -451,37 +383,15 @@ const responsiveCss = `
       animation-duration: 22s;
     }
 
-    .home-hero {
-      flex-direction: column;
-      padding: 30px 18px 24px;
-    }
-
     .home-hero-content {
-      max-width: 100%;
-      text-align: center;
-    }
-
-    .home-title {
-      font-size: 30px !important;
-      line-height: 1.2;
-    }
-
-    .home-subtitle {
-      font-size: 15px;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
     }
 
     .home-cta-row {
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
-    }
-
-    .home-hero-graphic {
-      width: 100%;
-    }
-
-    .home-carousel {
-      min-width: 0;
-      height: 250px;
     }
 
     .home-team-section,
@@ -516,10 +426,6 @@ const responsiveCss = `
       animation-duration: 18s;
     }
 
-    .home-title {
-      font-size: 26px !important;
-    }
-
     .home-cta-row {
       flex-direction: column;
       width: 100%;
@@ -529,12 +435,9 @@ const responsiveCss = `
     .home-cta,
     .home-secondary {
       width: 100%;
+      max-width: 220px;
       text-align: center;
       box-sizing: border-box;
-    }
-
-    .home-carousel {
-      height: 210px;
     }
 
     .home-team-grid,
@@ -604,28 +507,23 @@ const styles = {
   },
 
   hero: {
-    display: "flex",
-    gap: 24,
-    alignItems: "center",
-    padding: "48px 28px",
-    background: "linear-gradient(90deg, #fff7f0 0%, #fff 100%)",
+    position: "relative",
+    width: "100%",
+    overflow: "hidden",
+    background: "#f3ebe3",
+  },
+
+  heroBanner: {
+    display: "block",
+    width: "100%",
+    height: "auto",
   },
 
   heroContent: {
-    flex: 1,
-    maxWidth: 720,
-  },
-
-  title: {
-    fontSize: 38,
-    margin: "0 0 12px",
-    color: "#222",
-  },
-
-  subtitle: {
-    fontSize: 16,
-    margin: "0 0 20px",
-    color: "#555",
+    position: "absolute",
+    left: 48,
+    bottom: 28,
+    zIndex: 1,
   },
 
   ctaRow: {
@@ -651,87 +549,7 @@ const styles = {
     textDecoration: "none",
     border: "1px solid #ffecd8",
     fontWeight: 700,
-  },
-
-  heroGraphic: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  carousel: {
-    position: "relative",
-    width: "100%",
-    height: 280,
-    borderRadius: 12,
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minWidth: 300,
-  },
-
-  slideImg: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    transition: "opacity 800ms ease",
-    willChange: "opacity",
-  },
-
-  carouselOverlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02))",
-    pointerEvents: "none",
-  },
-
-  carouselControls: {
-    position: "absolute",
-    right: 12,
-    top: 12,
-    display: "flex",
-    gap: 8,
-  },
-
-  navBtn: {
-    background: "rgba(255,255,255,0.85)",
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: 8,
-    cursor: "pointer",
-    fontSize: 14,
-  },
-
-  dots: {
-    position: "absolute",
-    bottom: 10,
-    left: "50%",
-    transform: "translateX(-50%)",
-    display: "flex",
-    gap: 8,
-  },
-
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    background: "rgba(255,255,255,0.6)",
-    border: "none",
-    cursor: "pointer",
-  },
-
-  dotActive: {
-    width: 12,
-    height: 12,
-    borderRadius: 12,
-    background: "#ff7a00",
-    border: "none",
-    cursor: "pointer",
+    background: "rgba(255,255,255,0.92)",
   },
 
   categoryCard: {
