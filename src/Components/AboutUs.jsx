@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
 const teamMembers = [
-  {
-    name: 'Snehal Gaikwad',
-    role: 'Founder & CEO',
-    image: '/Team/Snehal%20Gaikwad_Photo.jpeg',
-    info: 'Food Technologist and food industry professional with 5+ years of experience in food quality control, research and development, nutrition, and food consulting. She focuses on maintaining product quality, developing new food products, and ensuring that every Ritual365 product meets high standards of taste, quality, and nutrition.',
-  },
-  {
-    name: 'Suraj Gaikwad',
-    role: 'Head of Technology & Operations',
-    image: '/Team/Suraj_Gaikwad_Photo.jpeg',
-    info: 'Technology professional with a strong background in full-stack application development and digital solutions. Currently focused on React-based applications, with over 3 years of professional experience working with .NET technologies including ASP.NET, .NET Core, C#, and SQL Server. At Ritual365, he contributes to technology, digital operations, website development, and building scalable solutions to support the brand’s growth.',
-  },
+  // {
+  //   name: 'Snehal Gaikwad',
+  //   role: 'Founder & CEO',
+  //   image: '/Team/Snehal%20Gaikwad_Photo.jpeg',
+  //   info: 'Food Technologist and food industry professional with 5+ years of experience in food quality control, research and development, nutrition, and food consulting. She focuses on maintaining product quality, developing new food products, and ensuring that every Ritual365 product meets high standards of taste, quality, and nutrition.',
+  // },
+  // {
+  //   name: 'Suraj Gaikwad',
+  //   role: 'Head of Technology & Operations',
+  //   image: '/Team/Suraj_Gaikwad_Photo.jpeg',
+  //   info: 'Technology professional with a strong background in full-stack application development and digital solutions. Currently focused on React-based applications, with over 3 years of professional experience working with .NET technologies including ASP.NET, .NET Core, C#, and SQL Server. At Ritual365, he contributes to technology, digital operations, website development, and building scalable solutions to support the brand’s growth.',
+  // },
   {
     name: 'Neha Gupta',
     role: 'Head Chef',
@@ -60,7 +60,7 @@ const testimonials = [
   },
 ]
 
-const AboutUs = () => {
+const AboutUs = ({ hideFooter = false }) => {
   const [teamIndex, setTeamIndex] = useState(0)
   const [testimonialIndex, setTestimonialIndex] = useState(0)
 
@@ -183,33 +183,35 @@ const AboutUs = () => {
         </section>
       </div>
 
-      <footer style={styles.footer}>
-        <div style={styles.footerContainer} className="about-footer-container">
-          <div style={styles.footerBrand}>
-            <div style={styles.footerLogo}>Ritual365</div>
-            <div style={styles.footerAddress}>shop 202, Gultekdi Market Yard, Pune, 411 042</div>
-            <div style={styles.footerMeta}>
-              Email: <a href="mailto:hello@ritual365.in" style={styles.link}>hello@ritual365.com</a>
+      {!hideFooter && (
+        <footer style={styles.footer}>
+          <div style={styles.footerContainer} className="about-footer-container">
+            <div style={styles.footerBrand}>
+              <div style={styles.footerLogo}>Ritual365</div>
+              <div style={styles.footerAddress}>shop 202, Gultekdi Market Yard, Pune, 411 042</div>
+              <div style={styles.footerMeta}>
+                Email: <a href="mailto:hello@ritual365.in" style={styles.link}>hello@ritual365.com</a>
+              </div>
+              <div style={styles.footerMeta}>
+                Phone: <a href="tel:+91 9763972505" style={styles.link}>+91 9763972505</a>
+              </div>
+              <div style={styles.footerMeta}>
+                Website: <a href="https://ritual365.in" target="_blank" rel="noreferrer" style={styles.link}>ritual365.in</a>
+              </div>
             </div>
-            <div style={styles.footerMeta}>
-              Phone: <a href="tel:+91 9763972505" style={styles.link}>+91 9763972505</a>
-            </div>
-            <div style={styles.footerMeta}>
-              Website: <a href="https://ritual365.in" target="_blank" rel="noreferrer" style={styles.link}>ritual365.in</a>
+            <div style={styles.footerActions}>
+              <button
+                style={styles.contactBtn}
+                onClick={() => {
+                  window.dispatchEvent(new Event('openContactModal'))
+                }}
+              >
+                Contact Us
+              </button>
             </div>
           </div>
-          <div style={styles.footerActions}>
-            <button
-              style={styles.contactBtn}
-              onClick={() => {
-                window.dispatchEvent(new Event('openContactModal'))
-              }}
-            >
-              Contact Us
-            </button>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </section>
   )
 }

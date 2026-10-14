@@ -7,7 +7,7 @@ import { namkeens } from './Foods/Namkeens'
 
 const allProducts = [...frozenFoods, ...sweets, ...snacks, ...namkeens]
 
-const links = ['Home', 'Categories', 'Offers', 'About', 'Contact']
+const links = ['Home', 'Categories', 'Offers', 'About Us', 'Contact Us']
 
 const Navbar = ({ cartCount = 0, onCartClick, searchTerm = '', onSearchChange }) => {
   const [hover, setHover] = useState(null)
@@ -21,7 +21,7 @@ const Navbar = ({ cartCount = 0, onCartClick, searchTerm = '', onSearchChange })
     if (link === 'Home') return activePage === 'home'
     if (link === 'Categories') return activePage === 'categories'
     if (link === 'Offers') return activePage === 'offers'
-    if (link === 'About') return activePage === 'about'
+    if (link === 'About Us') return activePage === 'about us'
     return false
   }
 
@@ -54,13 +54,21 @@ const Navbar = ({ cartCount = 0, onCartClick, searchTerm = '', onSearchChange })
               return (
                 <li key={l} style={styles.item}>
                   <a
-                    href={l === 'Contact' ? '/contact' : l === 'About' ? '#about' : `#${l.toLowerCase()}`}
+                    href={
+                      l === 'Contact Us'
+                        ? '/contact'
+                        : l === 'About Us'
+                          ? '#about'
+                          : l === 'Home'
+                            ? '#home'
+                            : `#${l.toLowerCase()}`
+                    }
                     onClick={(e) => {
-                      if (l === 'Contact') {
+                      if (l === 'Contact Us') {
                         e.preventDefault()
                         window.dispatchEvent(new Event('openContactModal'))
                       }
-                      if (l === 'About') {
+                      if (l === 'About Us') {
                         e.preventDefault()
                         const section = document.getElementById('about')
                         if (section) {
@@ -148,7 +156,7 @@ const Navbar = ({ cartCount = 0, onCartClick, searchTerm = '', onSearchChange })
             >
               <span style={{ marginRight: 6, fontSize: 18 }}>🛒</span>
               <span style={styles.cartLabel}>Cart</span>
-              {cartCount > 0 && <span style={styles.badge}>{cartCount}</span>}
+              <span style={styles.badge}>{cartCount}</span>
             </button>
 
             <UserProfile />
@@ -441,32 +449,35 @@ const styles = {
     fontSize: 14,
   },
   cart: {
-    background: 'linear-gradient(135deg, #ff7a00 0%, #ff9433 100%)',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 14px',
-    borderRadius: 10,
+    background: '#fff',
+    color: '#2b2118',
+    border: '1px solid #f0e8e1',
+    padding: '8px 12px',
+    borderRadius: 999,
     cursor: 'pointer',
     fontSize: 16,
     display: 'flex',
     alignItems: 'center',
     gap: 8,
-    boxShadow: '0 6px 20px rgba(255, 122, 0, 0.25)',
+    boxShadow: '0 4px 14px rgba(18,18,18,0.06)',
     fontWeight: 700,
     transition: 'all 160ms ease',
     transform: 'scale(1)',
+    position: 'relative',
   },
   cartLabel: {
     fontWeight: 800,
     fontSize: 13,
   },
   badge: {
-    background: '#fff',
-    color: '#ff7a00',
+    background: '#ff7a00',
+    color: '#fff',
     borderRadius: 999,
-    padding: '2px 8px',
+    padding: '1px 7px',
     fontWeight: 800,
-    fontSize: 13,
+    fontSize: 12,
+    minWidth: 18,
+    textAlign: 'center',
   },
   menuButton: {},
 }
